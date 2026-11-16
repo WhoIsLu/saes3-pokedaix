@@ -1,114 +1,127 @@
-from Ordonnancement.Contraintes import contrainteEnergie, contrainteRAM, obtenirCPULibre
+from Ordonnancement.Contraintes import contrainteRAM, contrainteEnergie
 
-def executer_round_robin(liste_processus, liste_energie, nb_cpu_total, ressources, quantum, energie_par_cpu):
-    """
-    Simule l'ordonnancement Round-Robin avec contraintes d'énergie et de RAM.
-    Renvoie l'historique des allocations pour l'export de données.
-    """
-    temps = 0
+def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, quantum: int) -> list:
+    # Tri initial de la liste : soumission croissante, priorité décroissante
+    processus.sort(key=lambda x: (x["date_soumission"], -x["priorite"]))
+    
+    # Préparation des listes
     file_attente = []
+    termines = []
+    
+    # Historique complet pour Vincent (puisqu'un processus RR peut s'asseoir plusieurs fois)
+    # On ajoute ce tableau spécifique au RR pour qu'il ait toutes les découpes
     historique_allocations = []
-    
-    # Représentation de nos machines (ex: {'CPU1': None, 'CPU2': dict_du_processus})
-    cpus_occupation = {f"CPU{i+1}": None for i in range(nb_cpu_total)}
-    processus_non_arrives = liste_processus.copy()
-    
-    # La boucle tourne tant qu'il reste des processus à traiter, en attente, ou sur les machines
-    while processus_non_arrives or file_attente or any(cpus_occupation.values()):
+ 
+    # Suivi des processeurs : {"CPU1": None, "CPU2": None}
+    cpus = {}
+    for cpu in ressources["processeur"]:
+        cpus[cpu] = None
         
-        # 1. ARRIVÉES : on fait entrer les processus dont c'est l'heure
-        arrivants = [p for p in processus_non_arrives if p.get("date_arrivee", 0) == temps]
-        for p in arrivants:
-            p["temps_restant"] = p["duree_execution"]
-            p["temps_passe_sur_cpu"] = 0
-            file_attente.append(p)
-            processus_non_arrives.remove(p)
+    t = 0
+    processus_restants = processus.copy()
 
-        # 2. SORTIES : Fin d'exécution ou Quantum écoulé
-        for cpu, occupant in cpus_occupation.items():
-            if occupant is not None:
-                # Le temps de la boucle précédente vient de s'écouler pour lui
-                occupant["temps_restant"] -= 1
-                occupant["temps_passe_sur_cpu"] += 1
-                
-                # A. Le processus a terminé son travail
-                if occupant["temps_restant"] <= 0:
+    # Boucle principale : tourne tant que tout n'est pas terminé
+    while len(termines) < len(processus):
+        
+        # 1. Fait entrer les processus soumis à l'instant t dans la file d'attente
+        for p in list(processus_restants):
+            if p["date_soumission"] == t:
+                # Ajout d'un compteur spécifique au RR : temps passé sur ce CPU actuel
+                file_attente.append(dict(p, temps_restant=p["duree_execution"], temps_sur_cpu=0, date_debut=None, date_fin=None, processeur=None))
+                processus_restants.remove(p)
+
+        # 2. Gestion des sorties (Fin de tâche ou Quantum écoulé) AVANT de placer de nouveaux processus
+        for cpu, p in cpus.items():
+            if p is not None:
+                # Si le processus vient de terminer
+                if p["temps_restant"] == 0:
                     historique_allocations.append({
-                        "processus": occupant["nom"],
-                        "cpu": cpu,
-                        "debut": occupant["heure_debut_allocation"],
-                        "fin": temps
+                        "processus": p["nom"], "cpu": cpu, 
+                        "debut": p["date_debut"], "fin": t
                     })
-                    cpus_occupation[cpu] = None
+                    p["date_fin"] = t
+                    termines.append(p)
+                    cpus[cpu] = None
                     
-                # B. Le processus a épuisé son temps (Quantum)
-                elif occupant["temps_passe_sur_cpu"] >= quantum:
+                # Si le processus n'a pas fini, mais que son quantum est écoulé
+                elif p["temps_sur_cpu"] == quantum:
                     historique_allocations.append({
-                        "processus": occupant["nom"],
-                        "cpu": cpu,
-                        "debut": occupant["heure_debut_allocation"],
-                        "fin": temps
+                        "processus": p["nom"], "cpu": cpu, 
+                        "debut": p["date_debut"], "fin": t
                     })
-                    # On remet son chronomètre local à zéro et il retourne faire la queue
-                    occupant["temps_passe_sur_cpu"] = 0
-                    file_attente.append(occupant)
-                    cpus_occupation[cpu] = None
+                    p["temps_sur_cpu"] = 0 # Remise à zéro de son compteur local
+                    p["date_debut"] = None # Il n'a plus de date de début "actuelle"
+                    p["processeur"] = None
+                    file_attente.append(p) # Retourne faire la queue
+                    cpus[cpu] = None
 
-        # 3. GESTION DE L'ÉNERGIE
-        # On vérifie la météo énergétique à la seconde actuelle
-        energie_actuelle = liste_energie[temps] if temps < len(liste_energie) else 0
-        cpus_autorises = contrainteEnergie(energie_actuelle, energie_par_cpu, nb_cpu_total)
-        cpus_actifs = sum(1 for occ in cpus_occupation.values() if occ is not None)
-        
-        # Coupure de courant : on éjecte les processus en trop si l'énergie chute brutalement
-        if cpus_actifs > cpus_autorises:
-            cpt_a_ejecter = cpus_actifs - cpus_autorises
-            for cpu, occupant in cpus_occupation.items():
-                if occupant is not None and cpt_a_ejecter > 0:
-                    historique_allocations.append({
-                        "processus": occupant["nom"],
-                        "cpu": cpu,
-                        "debut": occupant["heure_debut_allocation"],
-                        "fin": temps
-                    })
-                    occupant["temps_passe_sur_cpu"] = 0
-                    # On le remet en priorité absolue devant la file car il a été coupé injustement
-                    file_attente.insert(0, occupant) 
-                    cpus_occupation[cpu] = None
-                    cpt_a_ejecter -= 1
-                    cpus_actifs -= 1
+        # 3. Calcul de la RAM et de l'énergie disponibles
+        ram_utilisee = 0
+        cpus_occupes = 0
+        for p in cpus.values():
+            if p is not None:
+                ram_utilisee += p["ram_necessaire"]
+                cpus_occupes += 1
 
-        # 4. PLACEMENT (Contrainte RAM)
-        # On calcule la RAM déjà prise par les machines allumées
-        ram_utilisee = sum(occ["ram_necessaire"] for occ in cpus_occupation.values() if occ is not None)
-        
-        # Tant qu'on a des gens qui attendent et de l'énergie pour allumer une machine
-        while file_attente and cpus_actifs < cpus_autorises:
-            cpu_libre = obtenirCPULibre(cpus_occupation)
-            if cpu_libre is None:
-                break # Plus de machines physiques disponibles
-            
-            candidat = file_attente[0]
-            
-            # Utilisation de la fonction de Théo
-            if contrainteRAM(ressources, candidat, ram_utilisee):
-                processus_a_placer = file_attente.pop(0)
-                # On marque l'heure exacte à laquelle il s'assoit pour Vincent
-                processus_a_placer["heure_debut_allocation"] = temps
-                cpus_occupation[cpu_libre] = processus_a_placer
-                
-                ram_utilisee += processus_a_placer["ram_necessaire"]
-                cpus_actifs += 1
-            else:
-                # Si le 1er de la file n'a pas assez de RAM, la file est bloquée (logique FIFO stricte)
+        energie_actuelle = 0
+        for e in energie:
+            if e["instant"] == t:
+                energie_actuelle = e["energie_disponible"]
                 break
-                
-        # 5. LE CHRONOMÈTRE AVANCE
-        temps += 1
+
+        cpus_possibles = contrainteEnergie(energie_actuelle, ressources["energieParProc"], ressources["nbProcesseurs"])
         
-        # Sécurité pour ne pas faire exploser votre terminal en cas de fichier mal lu
-        if temps > 10000:
-            print("Arrêt de sécurité : Simulation bloquée ou temps > 10000")
+        # 4. Coupure d'énergie : on éjecte les processus si l'énergie chute brutalement
+        if cpus_occupes > cpus_possibles:
+            cpt_a_ejecter = cpus_occupes - cpus_possibles
+            for cpu, p in cpus.items():
+                if p is not None and cpt_a_ejecter > 0:
+                    historique_allocations.append({
+                        "processus": p["nom"], "cpu": cpu, 
+                        "debut": p["date_debut"], "fin": t
+                    })
+                    p["temps_sur_cpu"] = 0
+                    p["date_debut"] = None
+                    p["processeur"] = None
+                    file_attente.insert(0, p) # Remis en priorité absolue devant la file
+                    cpus[cpu] = None
+                    cpt_a_ejecter -= 1
+                    cpus_occupes -= 1
+                    ram_utilisee -= p["ram_necessaire"]
+        
+        # 5. Parcours de la file d'attente pour assigner les processus
+        for p in list(file_attente):
+            cpu_libre = None
+            for cpu, occupant in cpus.items():
+                if occupant is None:
+                    cpu_libre = cpu
+                    break
+            
+            if not cpu_libre:
+                break  
+            
+            # Vérification si on a le droit d'allumer une machine et si la RAM passe
+            if cpus_occupes < cpus_possibles and contrainteRAM(ressources, p, ram_utilisee):
+                p["date_debut"] = t # L'heure à laquelle il s'assoit pour ce tour
+                p["processeur"] = cpu_libre
+                cpus[cpu_libre] = p
+                ram_utilisee += p["ram_necessaire"]
+                cpus_occupes += 1
+                file_attente.remove(p)
+
+        # 6. Avancée du temps (Pas de temps +1)
+        # On diminue le temps restant et on augmente le temps passé sur la machine
+        for cpu, p in cpus.items():
+            if p is not None:
+                p["temps_restant"] -= 1
+                p["temps_sur_cpu"] += 1
+                
+        t += 1
+        
+        # Sécurité infinie
+        if t > 5000:
+            print("Boucle infinie détectée")
             break
 
-    return historique_allocations
+    # Pour l'export final, on renvoie à la fois les processus terminés ET l'historique complet des coupures
+    return termines, historique_allocations
