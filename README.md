@@ -12,7 +12,7 @@
 
 ## Travail personnel (Journal de bord)
 
-À remplir à chaque séance en autonomie (GPO et DEV) :
+A remplir à chaque fois qu'on travaille
 
 | Date | Lucie | Anas OUQUA | Théo | Vincent |
 | :--- | :--- | :--- | :--- | :--- |
