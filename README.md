@@ -3,12 +3,12 @@
 
 ## Présentation de l'équipe
 
-| Membre | Responsabilités et Répartition |
-| :--- | :--- |
-| Lucie | Configuration GitHub, Project Board, jalons, création issues US01-US08, orchestration globale |
-| Théo | Création du Backlog Produit, gestion US09-US15 & US23-US26, module algorithmique FIFO |
-| Anas OUQUA | Gestion US16-US22 & US27-US31 (Boutique/Panier), Ordonnancement Round-Robin, Documentation |
-| Vincent | Modélisation UML (Diag. Classes, UC, DSS), gestion US32-US35, export et traitement de données |
+| Membre | Sem 45-46 | Sem 47-48 | Sem 49-50 |
+| :--- | :--- | :--- | :--- |
+| Lucie | SCRUM Master | Développeuse |  |
+| Théo | Product Owner | SCRUM Master |  |
+| Anas OUQUA | Développeur | Product Owner |  |
+| Vincent | Développeur | Développeur |  |
 
 ## Travail personnel (Journal de bord)
 
