@@ -1,0 +1,9 @@
+id_processus,date_debut,date_fin,cpu
+P1,7,9,CPU1
+P1,9,11,CPU1
+P2,8,10,CPU2
+P2,10,11,CPU2
+P3,11,13,CPU1
+P1,13,14,CPU1
+P3,14,16,CPU1
+P3,16,18,CPU1
