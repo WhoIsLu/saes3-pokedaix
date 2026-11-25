@@ -28,3 +28,6 @@ replay_pid*
 
 #fichiers pycache
 __pycache__/
+
+#le target
+target/
