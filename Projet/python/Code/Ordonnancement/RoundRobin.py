@@ -37,7 +37,8 @@ def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, qu
                 if p["temps_restant"] <= 0:
                     historique_allocations.append({
                         "id_processus": p["id_processus"], "processeur": cpu, 
-                        "date_debut": p["date_debut"], "date_fin": t
+                        "date_debut": p["date_debut"], "date_fin": t,
+                        "ram_necessaire": p["ram_necessaire"]
                     })
                     p["date_fin"] = t
                     p["date_debut"] = p["date_premier_debut"] # Début global = premier passage sur un CPU
@@ -48,7 +49,8 @@ def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, qu
                 elif p["temps_sur_cpu"] == quantum:
                     historique_allocations.append({
                         "id_processus": p["id_processus"], "processeur": cpu, 
-                        "date_debut": p["date_debut"], "date_fin": t
+                        "date_debut": p["date_debut"], "date_fin": t,
+                        "ram_necessaire": p["ram_necessaire"]
                     })
                     p["temps_sur_cpu"] = 0 # Remise à zéro de son compteur local
                     p["date_debut"] = None # Il n'a plus de date de début "actuelle"
@@ -79,7 +81,8 @@ def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, qu
                 if p is not None and cpt_a_ejecter > 0:
                     historique_allocations.append({
                         "id_processus": p["id_processus"], "processeur": cpu, 
-                        "date_debut": p["date_debut"], "date_fin": t
+                        "date_debut": p["date_debut"], "date_fin": t,
+                        "ram_necessaire": p["ram_necessaire"]
                     })
                     p["temps_sur_cpu"] = 0
                     p["date_debut"] = None

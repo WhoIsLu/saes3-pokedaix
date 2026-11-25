@@ -57,7 +57,7 @@ def ecrire_csv(processus, fichier, colonnes):
         for p in processus:
             writer.writerow({c: p[c] for c in colonnes})
 
-def calculer_metriques(processus, ressources, energie):
+def calculer_metriques(processus, ressources, energie, allocations=None):
     """
     Calcul des métriques
     Retourne les métriques à mettre dans le csv pour un processus
@@ -75,6 +75,9 @@ def calculer_metriques(processus, ressources, energie):
             "taux_utilisation": 0
         }
 
+    if allocations is None:
+        allocations = processus
+
     n = len(processus)
 
     attente = sum(p["date_fin"] - p["date_soumission"] - p["duree_execution"] for p in processus) / n
@@ -83,7 +86,7 @@ def calculer_metriques(processus, ressources, energie):
 
     makespan = max(p["date_fin"] for p in processus)
 
-    energie_consommee = sum(sum(1 for p in processus if p["date_debut"] <= t < p["date_fin"]) * ressources["energieParProc"] for t in range(makespan))
+    energie_consommee = sum(sum(1 for a in allocations if a["date_debut"] <= t < a["date_fin"]) * ressources["energieParProc"] for t in range(makespan))
 
     taux = (energie_consommee / energie_disponible if energie_disponible > 0 else 0)
     
@@ -128,7 +131,7 @@ def ecrire_metriques(metriques, algorithme, fichier):
         writer.writerows(lignes)
 
 
-def ecrire_resultats(processus, ressources, energie, algorithme, fichier_global, fichier_allocations, fichier_metriques):
+def ecrire_resultats(processus, ressources, energie, algorithme, fichier_global, fichier_allocations, fichier_metriques, allocations=None):
     """
     Ecris les résultats de l'exécution dans les fichiers respectifs
     :param processus : le fichier processus.csv
@@ -138,12 +141,18 @@ def ecrire_resultats(processus, ressources, energie, algorithme, fichier_global,
     :param fichier_global : chemin du fichier resultats_fifo_global.csv
     :param fichier_allocations : chemin du fichier resultats_fifo_allocations.csv
     :param fichier_metriques : chemin du fichier metriques.csv
+    :param allocations : (facultatif) un élément par passage sur un processeur.
+                         FIFO : ne rien donner (un processus = une allocation).
+                         Round-Robin : donner l'historique renvoyé par l'algorithme.
     :return: les métriques sous forme de dictionnaire
     """
 
+    if allocations is None:
+        allocations = processus
+
     print(f"\nRésultats de {algorithme}")
 
-    erreurs = verifier_contraintes(processus, ressources, energie)
+    erreurs = verifier_contraintes(allocations, ressources, energie)
 
     if erreurs:
         print("Contraintes non respectées :")
@@ -162,7 +171,7 @@ def ecrire_resultats(processus, ressources, energie, algorithme, fichier_global,
     ])
 
     # Allocation détaillée
-    ecrire_csv(processus, fichier_allocations, [
+    ecrire_csv(allocations, fichier_allocations, [
         "id_processus",
         "date_debut",
         "date_fin",
@@ -170,7 +179,7 @@ def ecrire_resultats(processus, ressources, energie, algorithme, fichier_global,
     ])
 
     # Calcul et enregistrement des métriques
-    metriques = calculer_metriques(processus, ressources, energie)
+    metriques = calculer_metriques(processus, ressources, energie, allocations)
 
     ecrire_metriques(metriques, algorithme, fichier_metriques)
 
