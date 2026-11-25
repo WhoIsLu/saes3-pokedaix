@@ -1,6 +1,6 @@
 from Ordonnancement.Contraintes import contrainteRAM, contrainteEnergie
 
-def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, quantum: int) -> list:
+def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, quantum: int) -> tuple:
     # Tri initial de la liste : soumission croissante, priorité décroissante
     processus.sort(key=lambda x: (x["date_soumission"], -x["priorite"]))
     
@@ -27,27 +27,28 @@ def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, qu
         for p in list(processus_restants):
             if p["date_soumission"] == t:
                 # Ajout d'un compteur spécifique au RR : temps passé sur ce CPU actuel
-                file_attente.append(dict(p, temps_restant=p["duree_execution"], temps_sur_cpu=0, date_debut=None, date_fin=None, processeur=None))
+                file_attente.append(dict(p, temps_restant=p["duree_execution"], temps_sur_cpu=0, date_debut=None, date_premier_debut=None, date_fin=None, processeur=None))
                 processus_restants.remove(p)
 
         # 2. Gestion des sorties (Fin de tâche ou Quantum écoulé) AVANT de placer de nouveaux processus
         for cpu, p in cpus.items():
             if p is not None:
                 # Si le processus vient de terminer
-                if p["temps_restant"] == 0:
+                if p["temps_restant"] <= 0:
                     historique_allocations.append({
-                        "processus": p["nom"], "cpu": cpu, 
-                        "debut": p["date_debut"], "fin": t
+                        "id_processus": p["id_processus"], "processeur": cpu, 
+                        "date_debut": p["date_debut"], "date_fin": t
                     })
                     p["date_fin"] = t
+                    p["date_debut"] = p["date_premier_debut"] # Début global = premier passage sur un CPU
                     termines.append(p)
                     cpus[cpu] = None
                     
                 # Si le processus n'a pas fini, mais que son quantum est écoulé
                 elif p["temps_sur_cpu"] == quantum:
                     historique_allocations.append({
-                        "processus": p["nom"], "cpu": cpu, 
-                        "debut": p["date_debut"], "fin": t
+                        "id_processus": p["id_processus"], "processeur": cpu, 
+                        "date_debut": p["date_debut"], "date_fin": t
                     })
                     p["temps_sur_cpu"] = 0 # Remise à zéro de son compteur local
                     p["date_debut"] = None # Il n'a plus de date de début "actuelle"
@@ -77,8 +78,8 @@ def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, qu
             for cpu, p in cpus.items():
                 if p is not None and cpt_a_ejecter > 0:
                     historique_allocations.append({
-                        "processus": p["nom"], "cpu": cpu, 
-                        "debut": p["date_debut"], "fin": t
+                        "id_processus": p["id_processus"], "processeur": cpu, 
+                        "date_debut": p["date_debut"], "date_fin": t
                     })
                     p["temps_sur_cpu"] = 0
                     p["date_debut"] = None
@@ -103,6 +104,8 @@ def ordonancementRoundRobin(processus: list, ressources: dict, energie: list, qu
             # Vérification si on a le droit d'allumer une machine et si la RAM passe
             if cpus_occupes < cpus_possibles and contrainteRAM(ressources, p, ram_utilisee):
                 p["date_debut"] = t # L'heure à laquelle il s'assoit pour ce tour
+                if p["date_premier_debut"] is None:
+                    p["date_premier_debut"] = t # Première fois sur un processeur
                 p["processeur"] = cpu_libre
                 cpus[cpu_libre] = p
                 ram_utilisee += p["ram_necessaire"]
