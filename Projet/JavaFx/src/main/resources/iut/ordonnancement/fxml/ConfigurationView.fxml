@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.control.*?>
-
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iut.ordonnancement.controller.ConfigurationController" stylesheets="@../css/style.css">
+<BorderPane stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
 
 <!-- BARRE DE MENU -->
 <top>
@@ -14,24 +25,20 @@
         <menus>
             <Menu text="Fichier">
                 <items>
-                    <MenuItem text="Accueil"
-                              onAction="#retourAccueil"/>
-                    <MenuItem text="Quitter"
-                              onAction="#quitterApplication"/>
+                    <MenuItem onAction="#retourAccueil" text="Accueil" />
+                    <MenuItem onAction="#quitterApplication" text="Quitter" />
                 </items>
             </Menu>
 
             <Menu text="Affichage">
                 <items>
-                    <MenuItem text="Voir les résultats"
-                              onAction="#ouvrirAffichage"/>
+                    <MenuItem onAction="#ouvrirAffichage" text="Voir les résultats" />
                 </items>
             </Menu>
 
             <Menu text="Aide">
                 <items>
-                    <MenuItem text="À propos"
-                              onAction="#afficherAPropos"/>
+                    <MenuItem onAction="#afficherAPropos" text="À propos" />
                 </items>
             </Menu>
         </menus>
@@ -41,77 +48,54 @@
 <!-- CONTENU -->
 <center>
     <ScrollPane fitToWidth="true">
-        <VBox spacing="25" alignment="TOP_CENTER">
+        <VBox alignment="TOP_CENTER" spacing="25">
 
             <padding>
-                <Insets top="30" right="40"
-                        bottom="30" left="40"/>
+                <Insets bottom="30" left="40" right="40" top="30" />
             </padding>
 
             <!-- TITRE -->
-            <VBox spacing="8" alignment="CENTER">
-                <Label text="CONFIGURATION DE L'ORDONNANCEUR"
-                       styleClass="main-title"/>
+            <VBox alignment="CENTER" spacing="8">
+                <Label styleClass="main-title" text="CONFIGURATION DE L'ORDONNANCEUR" />
 
-                <Label text="Paramétrez les entrées et les algorithmes avant le lancement."
-                       styleClass="subtitle"/>
+                <Label styleClass="subtitle" text="Paramétrez les entrées et les algorithmes avant le lancement." />
             </VBox>
 
             <!-- FICHIERS D'ENTREE -->
             <VBox spacing="15" styleClass="section-box">
 
-                <Label text="1. Fichiers d'entrée"
-                       styleClass="section-title"/>
+                <Label styleClass="section-title" text="1. Fichiers d'entrée" />
 
                 <GridPane hgap="12" vgap="15">
 
                     <columnConstraints>
-                        <ColumnConstraints percentWidth="25"/>
-                        <ColumnConstraints percentWidth="60"/>
-                        <ColumnConstraints percentWidth="15"/>
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="60" />
+                        <ColumnConstraints percentWidth="15" />
                     </columnConstraints>
 
-                    <Label text="Processus CSV :"
-                           GridPane.rowIndex="0"
-                           GridPane.columnIndex="0"/>
+                    <Label text="Processus CSV :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
-                    <TextField fx:id="processusField"
-                               promptText="processus.csv"
-                               GridPane.rowIndex="0"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="processusField" promptText="processus.csv" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                    <Button text="Parcourir"
-                            onAction="#choisirProcessus"
-                            GridPane.rowIndex="0"
-                            GridPane.columnIndex="2"/>
+                    <Button onAction="#choisirProcessus" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="0" />
 
-                    <Label text="Ressources JSON :"
-                           GridPane.rowIndex="1"
-                           GridPane.columnIndex="0"/>
+                    <Label text="Ressources JSON :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-                    <TextField fx:id="ressourcesField"
-                               promptText="ressources.json"
-                               GridPane.rowIndex="1"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="ressourcesField" promptText="ressources.json" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Button text="Parcourir"
-                            onAction="#choisirRessources"
-                            GridPane.rowIndex="1"
-                            GridPane.columnIndex="2"/>
+                    <Button onAction="#choisirRessources" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
-                    <Label text="Énergie CSV :"
-                           GridPane.rowIndex="2"
-                           GridPane.columnIndex="0"/>
+                    <Label text="Énergie CSV :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
-                    <TextField fx:id="energieField"
-                               promptText="energie.csv"
-                               GridPane.rowIndex="2"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="energieField" promptText="energie.csv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                    <Button text="Parcourir"
-                            onAction="#choisirEnergie"
-                            GridPane.rowIndex="2"
-                            GridPane.columnIndex="2"/>
+                    <Button onAction="#choisirEnergie" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
 
                 </GridPane>
             </VBox>
@@ -119,34 +103,23 @@
             <!-- ALGORITHMES -->
             <VBox spacing="15" styleClass="section-box">
 
-                <Label text="2. Algorithmes d'ordonnancement"
-                       styleClass="section-title"/>
+                <Label styleClass="section-title" text="2. Algorithmes d'ordonnancement" />
 
                 <HBox spacing="30">
 
-                    <CheckBox fx:id="fifoCheck"
-                              text="FIFO"
-                              selected="true"/>
+                    <CheckBox fx:id="fifoCheck" selected="true" text="FIFO" />
 
-                    <CheckBox fx:id="rrCheck"
-                              text="Round Robin"
-                              selected="true"/>
-
-                    <CheckBox fx:id="edfCheck"
-                              text="EDF"
-                              selected="true"/>
+                    <CheckBox fx:id="rrCheck" selected="true" text="Round Robin" />
 
                 </HBox>
 
-                <HBox spacing="15" alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" spacing="15">
 
-                    <Label text="Quantum de temps :"/>
+                    <Label text="Quantum de temps :" />
 
-                    <Spinner fx:id="quantumSpinner"
-                             editable="true"
-                             prefWidth="100"/>
+                    <Spinner fx:id="quantumSpinner" editable="true" prefWidth="100" />
 
-                    <Label text="(Utilisé pour Round Robin)"/>
+                    <Label text="(Utilisé pour Round Robin)" />
 
                 </HBox>
 
@@ -155,44 +128,31 @@
             <!-- FICHIERS DE SORTIE -->
             <VBox spacing="15" styleClass="section-box">
 
-                <Label text="3. Fichiers de sortie"
-                       styleClass="section-title"/>
+                <Label styleClass="section-title" text="3. Fichiers de sortie" />
 
                 <GridPane hgap="12" vgap="15">
 
                     <columnConstraints>
-                        <ColumnConstraints percentWidth="25"/>
-                        <ColumnConstraints percentWidth="60"/>
-                        <ColumnConstraints percentWidth="15"/>
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="60" />
+                        <ColumnConstraints percentWidth="15" />
                     </columnConstraints>
 
-                    <Label text="Dossier de sortie :"
-                           GridPane.rowIndex="0"
-                           GridPane.columnIndex="0"/>
+                    <Label text="Dossier de sortie :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
-                    <TextField fx:id="sortieField"
-                               promptText="Outputs/Test1"
-                               GridPane.rowIndex="0"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="sortieField" promptText="Outputs/Test1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                    <Button text="Parcourir"
-                            onAction="#choisirDossierSortie"
-                            GridPane.rowIndex="0"
-                            GridPane.columnIndex="2"/>
+                    <Button onAction="#choisirDossierSortie" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="0" />
 
-                    <Label text="Fichier métriques :"
-                           GridPane.rowIndex="1"
-                           GridPane.columnIndex="0"/>
+                    <Label text="Fichier métriques :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-                    <TextField fx:id="metriquesField"
-                               promptText="metriques.csv"
-                               GridPane.rowIndex="1"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="metriquesField" promptText="metriques.csv" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Button text="Parcourir"
-                            onAction="#choisirMetriques"
-                            GridPane.rowIndex="1"
-                            GridPane.columnIndex="2"/>
+                    <Button onAction="#choisirMetriques" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
 
                 </GridPane>
             </VBox>
@@ -200,43 +160,31 @@
             <!-- FICHIER DE CONFIGURATION -->
             <VBox spacing="15" styleClass="section-box">
 
-                <Label text="4. Configuration"
-                       styleClass="section-title"/>
+                <Label styleClass="section-title" text="4. Configuration" />
 
-                <HBox spacing="12" alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" spacing="12">
 
-                    <Label text="Fichier config.txt :"/>
+                    <Label text="Fichier config.txt :" />
 
-                    <TextField fx:id="configField"
-                               text="Inputs/Test1/config.txt"
-                               HBox.hgrow="ALWAYS"/>
+                    <TextField fx:id="configField" text="Inputs/Test1/config.txt" HBox.hgrow="ALWAYS" />
 
-                    <Button text="Parcourir"
-                            onAction="#choisirConfiguration"/>
+                    <Button onAction="#choisirConfiguration" text="Parcourir" />
 
                 </HBox>
 
             </VBox>
 
             <!-- BOUTONS -->
-            <HBox spacing="20" alignment="CENTER">
+            <HBox alignment="CENTER" spacing="20">
 
-                <Button text="Enregistrer la configuration"
-                        onAction="#enregistrerConfiguration"
-                        styleClass="main-button"
-                        prefHeight="45"/>
+                <Button onAction="#enregistrerConfiguration" prefHeight="45" styleClass="main-button" text="Enregistrer la configuration" />
 
-                <Button text="Lancer Python"
-                        onAction="#lancerPython"
-                        styleClass="launch-button"
-                        prefHeight="45"/>
+                <Button onAction="#lancerPython" prefHeight="45" styleClass="launch-button" text="Lancer Python" />
 
             </HBox>
 
             <!-- ETAT -->
-            <Label fx:id="statusLabel"
-                   text="En attente de configuration..."
-                   styleClass="status-label"/>
+            <Label fx:id="statusLabel" styleClass="status-label" text="En attente de configuration..." />
 
         </VBox>
     </ScrollPane>
@@ -244,11 +192,9 @@
 
 <!-- PIED DE PAGE -->
 <bottom>
-    <Label text="SAÉ S3.01 - Configuration de l'ordonnanceur"
-           styleClass="footer"
-           BorderPane.alignment="CENTER">
+    <Label styleClass="footer" text="SAÉ S3.01 - Configuration de l'ordonnanceur" BorderPane.alignment="CENTER">
         <padding>
-            <Insets top="15" bottom="15"/>
+            <Insets bottom="15" top="15" />
         </padding>
     </Label>
 </bottom>
