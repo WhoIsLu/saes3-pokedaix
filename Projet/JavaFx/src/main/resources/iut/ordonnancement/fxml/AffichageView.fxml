@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.*?>
+
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iut.ordonnancement.controller.AffichageController" stylesheets="@../css/style.css">
+
+<!-- BARRE DE MENU -->
+<top>
+    <MenuBar>
+        <menus>
+
+            <Menu text="Fichier">
+                <items>
+                    <MenuItem text="Accueil"
+                              onAction="#retourAccueil"/>
+
+                    <MenuItem text="Configuration"
+                              onAction="#ouvrirConfiguration"/>
+
+                    <MenuItem text="Quitter"
+                              onAction="#quitterApplication"/>
+                </items>
+            </Menu>
+
+            <Menu text="Affichage">
+                <items>
+                    <MenuItem text="Actualiser"
+                              onAction="#actualiserResultats"/>
+                </items>
+            </Menu>
+
+            <Menu text="Aide">
+                <items>
+                    <MenuItem text="À propos"
+                              onAction="#afficherAPropos"/>
+                </items>
+            </Menu>
+
+        </menus>
+    </MenuBar>
+</top>
+
+<!-- CONTENU PRINCIPAL -->
+<center>
+    <VBox spacing="20">
+
+        <padding>
+            <Insets top="25" right="30"
+                    bottom="25" left="30"/>
+        </padding>
+
+        <!-- TITRE -->
+        <VBox spacing="8" alignment="CENTER">
+
+            <Label text="RÉSULTATS DE L'ORDONNANCEMENT"
+                   styleClass="main-title"/>
+
+            <Label text="Visualisation et comparaison des algorithmes"
+                   styleClass="subtitle"/>
+
+        </VBox>
+
+        <!-- SELECTION ALGORITHME -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+
+            <Label text="Algorithme :"/>
+
+            <ComboBox fx:id="algorithmeCombo"
+                      prefWidth="180"
+                      promptText="Choisir un algorithme"/>
+
+            <Button text="Actualiser"
+                    onAction="#actualiserResultats"/>
+
+        </HBox>
+
+        <!-- ONGLETS -->
+        <TabPane VBox.vgrow="ALWAYS">
+
+            <!-- ONGLET PROCESSUS -->
+            <Tab text="Processus" closable="false">
+
+                <VBox spacing="15">
+
+                    <padding>
+                        <Insets top="15" right="15"
+                                bottom="15" left="15"/>
+                    </padding>
+
+                    <Label text="Liste des processus"
+                           styleClass="section-title"/>
+
+                    <TableView fx:id="processusTable"
+                               VBox.vgrow="ALWAYS">
+
+                        <columns>
+
+                            <TableColumn fx:id="idColumn"
+                                         text="Identifiant"
+                                         prefWidth="110"/>
+
+                            <TableColumn fx:id="soumissionColumn"
+                                         text="Soumission"
+                                         prefWidth="110"/>
+
+                            <TableColumn fx:id="debutColumn"
+                                         text="Début"
+                                         prefWidth="100"/>
+
+                            <TableColumn fx:id="finColumn"
+                                         text="Fin"
+                                         prefWidth="100"/>
+
+                            <TableColumn fx:id="ramColumn"
+                                         text="RAM"
+                                         prefWidth="100"/>
+
+                            <TableColumn fx:id="dureeColumn"
+                                         text="Durée"
+                                         prefWidth="100"/>
+
+                        </columns>
+
+                    </TableView>
+
+                </VBox>
+
+            </Tab>
+
+            <!-- ONGLET GANTT PROCESSUS -->
+            <Tab text="Gantt par processus"
+                closable="false">
+
+                <VBox spacing="15">
+
+                    <padding>
+                        <Insets top="15" right="15"
+                                bottom="15" left="15"/>
+                    </padding>
+
+                    <Label text="Diagramme de Gantt par processus"
+                           styleClass="section-title"/>
+
+                    <HBox spacing="15"
+                          alignment="CENTER_LEFT">
+
+                        <Label text="Processus :"/>
+
+                        <ComboBox fx:id="processusCombo"
+                                  promptText="Tous les processus"
+                                  prefWidth="180"/>
+
+                    </HBox>
+
+                    <Pane fx:id="ganttProcessusPane"
+                          VBox.vgrow="ALWAYS"
+                          styleClass="chart-container"/>
+
+                </VBox>
+
+            </Tab>
+
+            <!-- ONGLET GANTT PROCESSEURS -->
+            <Tab text="Gantt par processeur"
+                closable="false">
+
+                <VBox spacing="15">
+
+                    <padding>
+                        <Insets top="15" right="15"
+                                bottom="15" left="15"/>
+                    </padding>
+
+                    <Label text="Diagramme de Gantt par processeur"
+                           styleClass="section-title"/>
+
+                    <HBox spacing="15"
+                          alignment="CENTER_LEFT">
+
+                        <Label text="Processeur :"/>
+
+                        <ComboBox fx:id="processeurCombo"
+                                  promptText="Tous les processeurs"
+                                  prefWidth="180"/>
+
+                        <Label text="Début de la fenêtre :"/>
+
+                        <TextField fx:id="debutFenetreField"
+                                   promptText="0"
+                                   prefWidth="70"/>
+
+                        <Label text="Fin :"/>
+
+                        <TextField fx:id="finFenetreField"
+                                   promptText="20"
+                                   prefWidth="70"/>
+
+                    </HBox>
+
+                    <Pane fx:id="ganttProcesseurPane"
+                          VBox.vgrow="ALWAYS"
+                          styleClass="chart-container"/>
+
+                </VBox>
+
+            </Tab>
+
+            <!-- ONGLET METRIQUES -->
+            <Tab text="Métriques" closable="false">
+
+                <ScrollPane fitToWidth="true">
+
+                    <VBox spacing="20">
+
+                        <padding>
+                            <Insets top="20" right="20"
+                                    bottom="20" left="20"/>
+                        </padding>
+
+                        <Label text="Métriques globales"
+                               styleClass="section-title"/>
+
+                        <GridPane hgap="20" vgap="20">
+
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+
+                            <VBox styleClass="metric-card"
+                                  GridPane.rowIndex="0"
+                                  GridPane.columnIndex="0">
+
+                                <Label text="Temps d'attente moyen"/>
+
+                                <Label fx:id="attenteLabel"
+                                       text="--"
+                                       styleClass="metric-value"/>
+
+                            </VBox>
+
+                            <VBox styleClass="metric-card"
+                                  GridPane.rowIndex="0"
+                                  GridPane.columnIndex="1">
+
+                                <Label text="Temps de réponse moyen"/>
+
+                                <Label fx:id="reponseLabel"
+                                       text="--"
+                                       styleClass="metric-value"/>
+
+                            </VBox>
+
+                            <VBox styleClass="metric-card"
+                                  GridPane.rowIndex="1"
+                                  GridPane.columnIndex="0">
+
+                                <Label text="Makespan"/>
+
+                                <Label fx:id="makespanLabel"
+                                       text="--"
+                                       styleClass="metric-value"/>
+
+                            </VBox>
+
+                            <VBox styleClass="metric-card"
+                                  GridPane.rowIndex="1"
+                                  GridPane.columnIndex="1">
+
+                                <Label text="Énergie consommée"/>
+
+                                <Label fx:id="energieConsommeeLabel"
+                                       text="--"
+                                       styleClass="metric-value"/>
+
+                            </VBox>
+
+                            <VBox styleClass="metric-card"
+                                  GridPane.rowIndex="2"
+                                  GridPane.columnIndex="0">
+
+                                <Label text="Énergie disponible"/>
+
+                                <Label fx:id="energieDisponibleLabel"
+                                       text="--"
+                                       styleClass="metric-value"/>
+
+                            </VBox>
+
+                            <VBox styleClass="metric-card"
+                                  GridPane.rowIndex="2"
+                                  GridPane.columnIndex="1">
+
+                                <Label text="Taux d'utilisation énergétique"/>
+
+                                <Label fx:id="tauxUtilisationLabel"
+                                       text="--"
+                                       styleClass="metric-value"/>
+
+                            </VBox>
+
+                        </GridPane>
+
+                        <Separator/>
+
+                        <Label text="Comparaison des algorithmes"
+                               styleClass="section-title"/>
+
+                        <Pane fx:id="comparaisonPane"
+                              prefHeight="300"
+                              styleClass="chart-container"/>
+
+                    </VBox>
+
+                </ScrollPane>
+
+            </Tab>
+
+            <!-- ONGLET ENERGIE -->
+            <Tab text="Énergie" closable="false">
+
+                <VBox spacing="15">
+
+                    <padding>
+                        <Insets top="15" right="15"
+                                bottom="15" left="15"/>
+                    </padding>
+
+                    <Label text="Évolution de l'énergie"
+                           styleClass="section-title"/>
+
+                    <Pane fx:id="energiePane"
+                          VBox.vgrow="ALWAYS"
+                          styleClass="chart-container"/>
+
+                </VBox>
+
+            </Tab>
+
+        </TabPane>
+
+    </VBox>
+</center>
+
+<!-- PIED DE PAGE -->
+<bottom>
+    <Label text="SAÉ S3.01 - Visualisation des résultats"
+           styleClass="footer"
+           BorderPane.alignment="CENTER">
+
+        <padding>
+            <Insets top="15" bottom="15"/>
+        </padding>
+
+    </Label>
+</bottom>
+
+
+</BorderPane>

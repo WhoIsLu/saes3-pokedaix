@@ -29,7 +29,7 @@ public class OrdonnancementApp extends Application{
 			System.out.println("Ressource FXML non disponible");
 			e.printStackTrace(); // TODO à supprimer en prod
 			System.exit(1);
-		} 
+		}
 	}
 
 }
