@@ -102,7 +102,7 @@ def lire_ligne(fichier, indice):
 # e1 = lire_ligne("../Inputs/Test01/energie.csv", 17) 
 # print(e1["instant"]) 
 
-print(lire_config("../Inputs/Test01/config.txt"))
+# print(lire_config("../Inputs/Test01/config.txt"))
  #fifo,...
 
-print(lire_json("../Inputs/Test01/ressources.json"))
+# print(lire_json("../Inputs/Test01/ressources.json"))

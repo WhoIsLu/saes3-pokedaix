@@ -1,4 +1,4 @@
-from Code.Ordonancement.Contraintes import contrainteRAM, contrainteEnergie
+from Ordonnancement.Contraintes import contrainteRAM, contrainteEnergie
 
 def ordonancementFIFO(processus: list, ressources: dict, energie: list) -> list:
     # Tri initial de le liste : soumission croissante, priorité décroissante
