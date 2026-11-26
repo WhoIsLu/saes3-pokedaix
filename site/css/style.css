@@ -1,0 +1,373 @@
+/*importation de la police Fredoka*/
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap');
+
+/*importation de la police Inter*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+
+/* variables de la charte graphique */
+:root {
+    /* palette de couleurs */
+    --ocre: #C8702E;
+    --lavande: #7B86C4;
+    --fond: #FAF7F2;
+    --fond-exterieur: #FFFFFF;
+    --texte: #2B2B2B;
+    --jaune: #F5C518;
+
+    /* Couleurs complémentaires d'état */
+    --rouge: #C0392B;
+    --vertispo: #27AE60;
+    --gris-bordure: #EAE5DC;
+
+    /* polices d'écriture */
+    --font-titres: 'Fredoka', cursive, sans-serif;
+    --font-corps: 'Inter', sans-serif;
+}
+
+
+
+
+/*style général de la page*/
+body {
+    min-height: 100vh;
+    background-color: var(--fond);
+    color: var(--texte);
+    font-family: var(--font-corps);
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+    flex-direction: column;
+}
+
+/* met automatiquement le footer en bas de page et structure la zone centrale */
+main {
+    flex: 1 0 auto;
+    border-radius: 20px;
+    padding: 2rem 2.25rem;
+    overflow-wrap: break-word;
+}
+
+main p {
+    max-width: 78ch;
+    margin: 1.25rem auto 0;
+}
+
+/* met une marge plus claire si format paysage */
+@media (orientation: landscape) {
+    body {
+        background-color: var(--fond-exterieur);
+    }
+
+    main {
+        background-color: var(--fond);
+        border: 1px solid var(--gris-bordure);
+        box-shadow: 0 12px 32px rgba(43, 43, 43, 0.06);
+    }
+}
+
+
+
+
+/* Style des titres et des liens */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-titres);
+    color: var(--ocre);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+h1 {
+    font-size: clamp(1.85rem, 3vw, 2.35rem);
+}
+
+main h1::after {
+    content: "";
+    display: block;
+    width: 72px;
+    height: 5px;
+    margin: 0.65rem auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--ocre), var(--jaune), var(--lavande));
+}
+
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.4rem; }
+
+a {
+    color: var(--lavande);
+    transition: color 0.5s ease;
+}
+
+a:hover {
+    color: var(--ocre);
+    text-decoration: none;
+}
+
+
+/* Style du header */
+header {
+    background: linear-gradient(135deg, #b55f20 0%, var(--ocre) 52%, #d88342 100%);
+    font-family: var(--font-titres);
+    color: var(--fond);
+    font-weight: 600;
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.header-bar {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.header-logo img {
+    filter: drop-shadow(0 3px 6px rgba(43, 43, 43, 0.22));
+    transition: transform 0.25s ease;
+}
+
+.header-logo:hover img {
+    transform: scale(1.06) rotate(360deg);
+}
+
+.header-title {
+    font-size: clamp(1.85rem, 4vw, 2.75rem);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: var(--fond);
+    text-shadow: 0 3px 10px rgba(43, 43, 43, 0.22);
+}
+
+.header-icon {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(250, 247, 242, 0.2);
+    border: 1px solid rgba(250, 247, 242, 0.4);
+    transition: transform 0.22s ease, background-color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.header-icon:hover {
+    background-color: var(--jaune);
+    border-color: var(--jaune);
+    transform: translateY(-2px) rotate(360deg);
+    box-shadow: 0 6px 14px rgba(43, 43, 43, 0.2);
+}
+
+/* Empêche la ligne Bootstrap de recherche de dépasser la largeur du header */
+.header > .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Barre de recherche */
+.search-group {
+    background-color: var(--fond);
+    border-radius: 999px;
+    padding: 4px;
+    border: 2px solid rgba(250, 247, 242, 0.85);
+    box-shadow: 0 6px 18px rgba(43, 43, 43, 0.16);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.search-group:focus-within {
+    border-color: var(--jaune);
+    box-shadow: 0 8px 22px rgba(43, 43, 43, 0.24);
+}
+
+.search-group .form-control,
+.search-group .form-control:focus {
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    padding-left: 1.1rem;
+    color: var(--texte);
+    font-family: var(--font-corps);
+    font-size: 0.95rem;
+    box-shadow: none;
+}
+
+.search-group .form-control::placeholder {
+    color: rgba(43, 43, 43, 0.5);
+}
+
+
+/* bouton de recherche */
+.btn-recherche {
+    background-color: var(--jaune);
+    border: 0;
+    color: var(--texte);
+    font-family: var(--font-titres);
+    font-weight: 600;
+    font-size: 0.98rem;
+    border-radius: 999px !important;
+    padding: 0.42rem 1.35rem;
+    transition: transform 0.22s ease, background-color 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.btn-recherche:hover {
+    background-color: var(--lavande);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(123, 134, 196, 0.4);
+}
+
+
+/* Style de la barre de navigation */
+.navbar {
+    background-color: #ffffff;
+    border-top: 5px solid #ffffff;
+    border-bottom: 2px solid var(--gris-bordure);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    z-index: 1100;
+    padding: 0 20px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 26px;
+    align-items: center;
+}
+
+.nav-links a,
+.nav-links .menu-trigger {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    color: #174240;
+    background: transparent;
+    margin-bottom: 0;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.22s ease;
+}
+
+.nav-links a:hover,
+.nav-links .menu-trigger:hover {
+    background: rgba(220, 0, 0, 0.06);
+    color: #DC0000;
+    transform: translateY(-3px);
+}
+
+.nav-links a:active,
+.nav-links .menu-trigger:active {
+    transform: translateY(0);
+}
+
+/* Gestion CSS pure des menus et sous-menus */
+.menu-radio {
+    display: none;
+}
+
+.nav-links .menu-close {
+    display: none;
+    background: #DC0000;
+    color: #ffffff;
+}
+
+.nav-links .menu-close:hover {
+    background: #b80000;
+    color: #ffffff;
+}
+
+/* Activation du bouton sélectionné (forme pilule active) */
+#menu-1:checked ~ .nav-links .menu-item-1 .menu-open,
+#menu-2:checked ~ .nav-links .menu-item-2 .menu-open,
+#menu-3:checked ~ .nav-links .menu-item-3 .menu-open,
+#menu-4:checked ~ .nav-links .menu-item-4 .menu-open {
+    display: none;
+}
+
+#menu-1:checked ~ .nav-links .menu-item-1 .menu-close,
+#menu-2:checked ~ .nav-links .menu-item-2 .menu-close,
+#menu-3:checked ~ .nav-links .menu-item-3 .menu-close,
+#menu-4:checked ~ .nav-links .menu-item-4 .menu-close {
+    display: inline-block;
+}
+
+/* Sous-menu affiché en dessous de tout le menu avec animation d'extension */
+.submenu-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    background-color: var(--fond);
+    border-radius: 14px;
+    border: 0 solid var(--gris-bordure);
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0 12px;
+    transition: grid-template-rows 0.25s ease, border-width 0.25s ease, margin-top 0.25s ease, margin-bottom 0.25s ease, padding 0.25s ease;
+}
+
+.submenu-content {
+    display: none;
+    min-height: 0;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.submenu-content a {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--texte);
+    background-color: #ffffff;
+    border: 1px solid var(--gris-bordure);
+    transition: all 0.2s ease;
+}
+
+.submenu-content a:hover {
+    background-color: var(--ocre);
+    border-color: var(--ocre);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(200, 112, 46, 0.25);
+}
+
+#menu-1:checked ~ .submenu-wrapper,
+#menu-2:checked ~ .submenu-wrapper,
+#menu-3:checked ~ .submenu-wrapper,
+#menu-4:checked ~ .submenu-wrapper {
+    grid-template-rows: 1fr;
+    border-width: 1px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+}
+
+#menu-1:checked ~ .submenu-wrapper .submenu-1,
+#menu-2:checked ~ .submenu-wrapper .submenu-2,
+#menu-3:checked ~ .submenu-wrapper .submenu-3,
+#menu-4:checked ~ .submenu-wrapper .submenu-4 {
+    display: flex;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .submenu-wrapper {
+        transition: none;
+    }
+}
+
+
+/* style du bas de la page */
+footer {
+    background: linear-gradient(180deg, var(--texte) 0%, #1f1f1f 100%);
+    color: var(--fond);
+    padding: 1.75rem 0;
+    border-top: 4px solid var(--ocre);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
