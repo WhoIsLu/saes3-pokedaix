@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+
+<!-- BARRE DE MENU -->
+<top>
+    <MenuBar>
+        <menus>
+            <Menu text="Fichier">
+                <items>
+                    <MenuItem onAction="#retourAccueil" text="Accueil" />
+                    <MenuItem onAction="#quitterApplication" text="Quitter" />
+                </items>
+            </Menu>
+
+            <Menu text="Affichage">
+                <items>
+                    <MenuItem onAction="#ouvrirAffichage" text="Voir les résultats" />
+                </items>
+            </Menu>
+
+            <Menu text="Aide">
+                <items>
+                    <MenuItem onAction="#afficherAPropos" text="À propos" />
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+</top>
+
+<!-- CONTENU -->
+<center>
+    <ScrollPane fitToWidth="true">
+        <VBox alignment="TOP_CENTER" spacing="25">
+
+            <padding>
+                <Insets bottom="30" left="40" right="40" top="30" />
+            </padding>
+
+            <!-- TITRE -->
+            <VBox alignment="CENTER" spacing="8">
+                <Label styleClass="main-title" text="CONFIGURATION DE L'ORDONNANCEUR" />
+
+                <Label styleClass="subtitle" text="Paramétrez les entrées et les algorithmes avant le lancement." />
+            </VBox>
+
+            <!-- FICHIERS D'ENTREE -->
+            <VBox spacing="15" styleClass="section-box">
+
+                <Label styleClass="section-title" text="1. Fichiers d'entrée" />
+
+                <GridPane hgap="12" vgap="15">
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="60" />
+                        <ColumnConstraints percentWidth="15" />
+                    </columnConstraints>
+
+                    <Label text="Processus CSV :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                    <TextField fx:id="processusField" promptText="processus.csv" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <Button onAction="#choisirProcessus" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                    <Label text="Ressources JSON :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                    <TextField fx:id="ressourcesField" promptText="ressources.json" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Button onAction="#choisirRessources" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                    <Label text="Énergie CSV :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+                    <TextField fx:id="energieField" promptText="energie.csv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                    <Button onAction="#choisirEnergie" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+
+                </GridPane>
+            </VBox>
+
+            <!-- ALGORITHMES -->
+            <VBox spacing="15" styleClass="section-box">
+
+                <Label styleClass="section-title" text="2. Algorithmes d'ordonnancement" />
+
+                <HBox spacing="30">
+
+                    <CheckBox fx:id="fifoCheck" selected="true" text="FIFO" />
+
+                    <CheckBox fx:id="rrCheck" selected="true" text="Round Robin" />
+
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="15">
+
+                    <Label text="Quantum de temps :" />
+
+                    <Spinner fx:id="quantumSpinner" editable="true" prefWidth="100" />
+
+                    <Label text="(Utilisé pour Round Robin)" />
+
+                </HBox>
+
+            </VBox>
+
+            <!-- FICHIERS DE SORTIE -->
+            <VBox spacing="15" styleClass="section-box">
+
+                <Label styleClass="section-title" text="3. Fichiers de sortie" />
+
+                <GridPane hgap="12" vgap="15">
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="60" />
+                        <ColumnConstraints percentWidth="15" />
+                    </columnConstraints>
+
+                    <Label text="Dossier de sortie :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                    <TextField fx:id="sortieField" promptText="Outputs/Test1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <Button onAction="#choisirDossierSortie" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                    <Label text="Fichier métriques :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                    <TextField fx:id="metriquesField" promptText="metriques.csv" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Button onAction="#choisirMetriques" text="Parcourir" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+
+                </GridPane>
+            </VBox>
+
+            <!-- FICHIER DE CONFIGURATION -->
+            <VBox spacing="15" styleClass="section-box">
+
+                <Label styleClass="section-title" text="4. Configuration" />
+
+                <HBox alignment="CENTER_LEFT" spacing="12">
+
+                    <Label text="Fichier config.txt :" />
+
+                    <TextField fx:id="configField" text="Inputs/Test1/config.txt" HBox.hgrow="ALWAYS" />
+
+                    <Button onAction="#choisirConfiguration" text="Parcourir" />
+
+                </HBox>
+
+            </VBox>
+
+            <!-- BOUTONS -->
+            <HBox alignment="CENTER" spacing="20">
+
+                <Button onAction="#enregistrerConfiguration" prefHeight="45" styleClass="main-button" text="Enregistrer la configuration" />
+
+                <Button onAction="#lancerPython" prefHeight="45" styleClass="launch-button" text="Lancer Python" />
+
+            </HBox>
+
+            <!-- ETAT -->
+            <Label fx:id="statusLabel" styleClass="status-label" text="En attente de configuration..." />
+
+        </VBox>
+    </ScrollPane>
+</center>
+
+<!-- PIED DE PAGE -->
+<bottom>
+    <Label styleClass="footer" text="SAÉ S3.01 - Configuration de l'ordonnanceur" BorderPane.alignment="CENTER">
+        <padding>
+            <Insets bottom="15" top="15" />
+        </padding>
+    </Label>
+</bottom>
+
+
+</BorderPane>
