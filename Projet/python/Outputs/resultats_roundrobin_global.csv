@@ -1,4 +1,4 @@
-id_processus,date_soumission,date_debut,date_fin,ram
-P1,0,7,14,512
+id_processus,date_soumission,date_debut,date_fin,ram_necessaire
 P2,1,8,11,256
+P1,0,7,14,512
 P3,2,11,18,1024

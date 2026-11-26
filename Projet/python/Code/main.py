@@ -27,7 +27,7 @@ fichier_metriques = dossier_outputs + config["fichier_metriques"]
 open(fichier_metriques, "w").close() #clean le fichier si existe, sinon le créer
 
 for algo in config["algorithmes"]:
-
+    historique = []
     #rajouter un strip si pb pour rr
 
     if algo == "FIFO":
