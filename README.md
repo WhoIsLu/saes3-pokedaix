@@ -14,7 +14,7 @@ Le projet comprend trois modules qui partagent la même base de données :
 4. [Tests](#tests)
 5. [Arborescence du dépôt](#arborescence-du-dépôt)
 6. [Livrables et jalons officiels](#livrables-et-jalons-officiels)
-7. [Travail personnel (journal de bord)](#travail-personnel-journal-de-bord)
+7. [Bilan individuel par sprint](#bilan-individuel-par-sprint)
 
 ---
 
@@ -47,50 +47,34 @@ Le suivi détaillé se fait dans le **Project Board** GitHub : une issue par use
 
 ## Répartition des tâches et état d'avancement
 
-**Légende :** ✅ Fait · 🔄 En cours · ⏳ À faire · 🧪 Fait, en test
-
-### Backlog produit : responsables des user stories
-
-| US | Domaine | Module | Responsable | Sprint prévu | État |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| US01 → US08 | Catalogue (navigation, filtres, fiches produit) | Site PHP | Lucie | Sprint 2 | ⏳ |
-| US09 → US15 | Compte client (inscription, connexion, RGPD) | Site PHP | Théo | Sprint 2 | ⏳ |
-| US16 → US22 | Panier, livraison, paiement, confirmation | Site PHP | Anas | Sprint 2-3 | ⏳ |
-| US23, US25, US26 | Administration (avis, lots, pages) | Console admin PHP | Théo | Sprint 3 | ⏳ |
-| US24 | Administration (produits) | Console admin PHP | Anas | Sprint 3 | ⏳ |
-| US27 → US31 | Gestion des stocks | Application Java | Anas | Sprint 2-3 | ⏳ |
-| US32 → US35 | Analyse des données | Python | Vincent | Sprint 3 | ⏳ |
-
-> Chaque ligne renvoie aux issues correspondantes du Project Board.
-
 ### Sprint 1 (16/11 → 27/11) : tâches du sprint
 
 **Base de données** (rendu le 29/11)
 
 | Tâche | Responsable | État | Livrable |
 | :--- | :--- | :--- | :--- |
-| Diagramme de classes | Vincent, Lucie | 🔄 | [`bd/`](bd/) |
-| Dictionnaire de données | Anas | ✅ | [`bd/`](bd/) |
-| Schéma relationnel | Lucie | ✅ | [`bd/`](bd/) |
+| Diagramme de classes | Vincent, Lucie | En cours | [`bd/`](bd/) |
+| Dictionnaire de données | Anas | Fait | [`bd/`](bd/) |
+| Schéma relationnel | Lucie | Fait | [`bd/`](bd/) |
 
 **Site web** (rendu le 29/11)
 
 | Tâche | Responsable | État | Livrable |
 | :--- | :--- | :--- | :--- |
-| Charte graphique (`index.php` + include) | Théo | ✅ | [`site/`](site/) |
-| SEP + diagramme d'état de la commande | Vincent | 🔄 | [`docs/`](docs/) |
-| Maquettes | Équipe | 🔄 | [`maquettes/`](maquettes/) |
+| Charte graphique (`index.php` + include) | Théo | Fait | [`site/`](site/) |
+| SEP + diagramme d'état de la commande | Vincent | En cours | [`docs/`](docs/) |
+| Maquettes | Équipe | En cours | [`maquettes/`](maquettes/) |
 
 **Module Python : ordonnancement** (rendu le 06/12)
 
 | Fichier | Rôle | Responsable | État |
 | :--- | :--- | :--- | :--- |
-| `lecture.py` | Lecture de `config.txt`, des CSV et de `ressources.json` | Lucie | ✅ |
-| `Ordonnancement/Contraintes.py` | Contraintes de RAM et d'énergie (`contrainteRAM`, `contrainteEnergie`) | Théo, Anas | ✅ |
-| `Ordonnancement/FIFO.py` | Politique FIFO | Théo | ✅ |
-| `Ordonnancement/RoundRobin.py` | Politique Round-Robin (quantum, historique des passages sur CPU) | Anas | 🧪 |
-| `ecriture.py` | Fichiers de résultats, vérification des contraintes, métriques | Vincent | 🧪 |
-| `main.py` | Lancement de la simulation (`config.txt` → algorithmes → résultats) | Lucie | 🔄 |
+| `lecture.py` | Lecture de `config.txt`, des CSV et de `ressources.json` | Lucie | Fait |
+| `Ordonnancement/Contraintes.py` | Contraintes de RAM et d'énergie (`contrainteRAM`, `contrainteEnergie`) | Théo, Anas | Fait |
+| `Ordonnancement/FIFO.py` | Politique FIFO | Théo | Fait |
+| `Ordonnancement/RoundRobin.py` | Politique Round-Robin (quantum, historique des passages sur CPU) | Anas | En test |
+| `ecriture.py` | Fichiers de résultats, vérification des contraintes, métriques | Vincent | En test |
+| `main.py` | Lancement de la simulation (`config.txt` → algorithmes → résultats) | Lucie | En cours |
 
 Points restant à traiter avant le rendu :
 - `main.py` ne traite que `Test01` : il faut aussi traiter `Test02` et écrire dans `Outputs/Test01/`, `Outputs/Test02/` (structure imposée par le sujet) ;
@@ -101,12 +85,12 @@ Points restant à traiter avant le rendu :
 
 | Tâche | Module | Responsable | État |
 | :--- | :--- | :--- | :--- |
-| Script de création de la BD + insertions (rendu 06/12) | BD | *à répartir* | ⏳ |
-| Authentification, sessions, mots de passe hachés (rendu 06/12) | Site PHP | *à répartir* | ⏳ |
-| Interface JavaFX : création/modification du fichier de configuration | Java | Anas, Vincent, Lucie | ⏳ |
-| Interface JavaFX : lancement de l'application Python | Java | *à répartir* | ⏳ |
-| Interface JavaFX : diagramme de Gantt par processeur | Java | Anas | ⏳ |
-| Documentation technique + Javadoc (rendu 07/12) | Java | Équipe | ⏳ |
+| Script de création de la BD + insertions (rendu 06/12) | BD | *à répartir* | À faire |
+| Authentification, sessions, mots de passe hachés (rendu 06/12) | Site PHP | *à répartir* | À faire |
+| Interface JavaFX : création/modification du fichier de configuration | Java | Anas, Vincent, Lucie | À faire |
+| Interface JavaFX : lancement de l'application Python | Java | *à répartir* | À faire |
+| Interface JavaFX : diagramme de Gantt par processeur | Java | Anas | À faire |
+| Documentation technique + Javadoc (rendu 07/12) | Java | Équipe | À faire |
 
 ---
 
@@ -176,18 +160,16 @@ Chaque membre complète sa ligne à la fin du sprint. Le détail au jour le jour
 
 | Membre | Travail réalisé | Issues / fichiers |
 | :--- | :--- | :--- |
-| Lucie | Création du dépôt GitHub, du README de base, du Project Board et des jalons (Sprints 0 à 3) ; découpage et estimation des US01 à US08 (Catalogue) ; développement de `lecture.py` ; mise en place de l'arborescence `Inputs/` et `Outputs/` | US01 → US08, `lecture.py` |
-| Anas OUQUA | Découpage et estimation des US16 à US22 (Panier/Paiement), US24 et US27 à US31 (Stocks Java) ; fonction `contrainteEnergie` ; correction de `contrainteRAM` avec Théo (Live Share) ; rédaction du README | US16 → US22, US24, US27 → US31, `Contraintes.py`, `README.md` |
-| Théo | Création du backlog produit et intégration des user stories ; découpage et estimation des US09 à US15 (Comptes) et US23, US25, US26 (Admin) ; envoi du backlog à la MOA pour validation ; squelette de `FIFO.py` et fonction `contrainteRAM` | US09 → US15, US23, US25, US26, `FIFO.py`, `Contraintes.py` |
-| Vincent | Diagramme de cas d'utilisation, diagramme de classes métier et diagrammes de séquence (DSS) ; découpage et estimation des US32 à US35 (Python Data) ; squelette des fichiers d'export et tests d'écriture des CSV | US32 → US35, `ecriture.py`, `docs/` |
-| **Toute l'équipe** | Poker de complexité du backlog et remplissage du Sprint 1 (10/11) | Milestone `Sprint 1` |
+| Lucie | | |
+| Anas OUQUA | | |
+| Théo | | |
+| Vincent | | |
 
 ### Sprint 1 (16/11 → 27/11) : BD, charte graphique, module Python
 
 | Membre | Travail réalisé | Issues / fichiers |
 | :--- | :--- | :--- |
-| Lucie | *à compléter* | |
-| Anas OUQUA | Politique Round-Robin (quantum, historique des passages sur CPU) et intégration avec `main.py` ; ajout de `RR` dans `config.txt` ; adaptation d'`ecriture.py` pour l'allocation détaillée et la vérification des contraintes (avec l'accord de Vincent) ; dictionnaire de données ; préparation de la soutenance | `RoundRobin.py`, `ecriture.py`, `config.txt`, `bd/` |
-| Théo | *à compléter* | |
-| Vincent | *à compléter* | | l'historique) et intégration avec `main.py` ; ajout de `RR` dans `config.txt` ; paramètre `allocations` dans `ecriture.py` (avec l'accord de Vincent) ; dictionnaire de données | | |
-| 27/11 | | Relecture du dictionnaire et du schéma relationnel ; préparation de la soutenance (accroche, user flow, maquette, diagramme de classes) | | |
+| Lucie | | |
+| Anas OUQUA | | |
+| Théo | | |
+| Vincent | | |
