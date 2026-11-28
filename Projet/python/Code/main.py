@@ -49,4 +49,4 @@ for algo in config["algorithmes"]:
     fichier_allocations = dossier_outputs + config["fichier_allocations_" + nom_sortie]
 
     
-    ecrire_resultats(resultat, ressources, energie, algo, fichier_global, fichier_allocations, fichier_metriques)
+    ecrire_resultats(resultat, ressources, energie, algo, fichier_global, fichier_allocations, fichier_metriques, allocations=historique)
